@@ -4,37 +4,19 @@ from typing import List
 
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
-        records = {}
+        # 數字 -> 長度
+        records = defaultdict(int)
         max_count = 0
-        for i in range(len(nums)):
-            if records.get(nums[i]) is None:
-                if records.get(nums[i]-1) is None and records.get(nums[i]+1) is None:
-                    records[nums[i]] = Record(nums[i], nums[i], 1)
-                elif records.get(nums[i]-1) is not None and records.get(nums[i]+1) is None:
-                    records[nums[i]] = Record(records[nums[i]-1].start, nums[i], records[nums[i]-1].count + 1)
-                    records[records[nums[i]-1].start] = records[nums[i]]
-                elif records.get(nums[i]-1) is None and records.get(nums[i]+1) is not None:
-                    records[nums[i]] = Record(nums[i], records[nums[i]+1].end, records[nums[i]+1].count + 1)
-                    records[records[nums[i]+1].end] = records[nums[i]]
-                else:
-                    records[nums[i]] = Record(records[nums[i]-1].start, records[nums[i]+1].end, records[nums[i]-1].count + records[nums[i]+1].count + 1)
-                    records[records[nums[i]-1].start] = records[nums[i]]
-                    records[records[nums[i]+1].end] = records[nums[i]]
-                max_count = max(max_count, records[nums[i]].count)
+        for num in nums:
+            if not records[num]:
+                records[num] = records[num-1] + records[num+1] + 1
+                records[num - records[num-1]] = records[num]
+                # num = 5, num-1 = 4, records[num-1] = 2, records[num-1] 的開頭在 3, so 5-2 = 3
+                records[num + records[num+1]] = records[num]
+                max_count = max(max_count, records[num])
             else:
                 continue
         return max_count
-
-class Record:
-    def __init__(self, start, end, count):
-        self.start = start
-        self.end = end
-        self.count = count
-    
-    def reset(self, start, end, count):
-        self.start = start
-        self.end = end
-        self.count = count
 
 if __name__ == "__main__":
     print(Solution().longestConsecutive([9, 1, 2, 5, 3, 4, 7, 0, 10]))
