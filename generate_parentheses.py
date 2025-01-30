@@ -3,15 +3,15 @@ from typing import List
 
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        result = set()
+        result = []
         left_count = n
         right_count = n
         self.putParenthesis(left_count, right_count, '', result)
-        return list(result)
+        return result
     
     def putParenthesis(self, left_count, right_count, parenthesis, result):
         if left_count == 0 and right_count == 0:
-            result.add(parenthesis)
+            result.append(parenthesis)
             return
         if left_count > 0:
             self.putParenthesis(left_count - 1, right_count, parenthesis + '(', result)
