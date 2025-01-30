@@ -6,7 +6,6 @@ class Solution:
         column_store = [[False] * 10 for _ in range(10)]
         row_store = [[False] * 10 for _ in range(10)]
         box_store = [[False] * 10 for _ in range(10)]
-        print(column_store)
         for column in range(9):
             for row in range(9):
                 boxes = board[column][row]

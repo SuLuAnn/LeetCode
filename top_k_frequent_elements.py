@@ -8,7 +8,6 @@ class Solution:
         for i in nums:
             dic[i] += 1
         data = list(sorted(dic.items(), key = lambda x : x[1], reverse = True))
-        print(data)
         result =[x[0] for x in data]
         return result[0: k]
 
