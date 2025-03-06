@@ -4,16 +4,15 @@ from typing import List
 
 class Solution:
     def minEatingSpeed(self, piles: List[int], h: int) -> int:
-        piles.sort(reverse= True)
-        min_num, max_num = 1, piles[0]
+        min_num, max_num = 1, max(piles)
         res = 1
         while min_num <= max_num:
             mid = (max_num + min_num) // 2
             accu_h = 0
             for pile in piles:
                 accu_h += math.ceil(pile / mid)
-                if accu_h > h:
-                    min_num = mid + 1
+            if accu_h > h:
+                min_num = mid + 1
             else:
                 res = mid
                 max_num = mid - 1
