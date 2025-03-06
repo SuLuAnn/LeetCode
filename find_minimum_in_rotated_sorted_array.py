@@ -8,10 +8,8 @@ class Solution:
             mid = (r + l) // 2
             if nums[mid] > nums[l]:
                 r = mid + 1
-            elif nums[mid] < nums[l] and (mid == 0 or nums[mid - 1] > nums[mid]):
-                return nums[mid]
             else:
-                l = mid - 1
+                l = mid
         return nums[r]
     
 if __name__ == "__main__":
