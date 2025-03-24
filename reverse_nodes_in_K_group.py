@@ -10,24 +10,19 @@ class Solution:
         origin_haed = head
         cur_num = 0
         pre_Node = None
-        while cur_num < k:
-            if not head:
-                head = pre_Node
-                pre_Node = None
-                while cur_num > 0:
-                    tmp = head.next
-                    head.next = pre_Node
-                    pre_Node = head
-                    head = tmp
-                    cur_num -= 1
-                return pre_Node
+        cur = head
+        while cur and cur_num < k:
+            cur = cur.next
+            cur_num += 1
+        if cur_num < k:
+            return head
+        while cur_num > 0:
             tmp = head.next
             head.next = pre_Node
             pre_Node = head
             head = tmp
-            cur_num += 1
-        if head:
-            origin_haed.next = self.reverseKGroup(head, k)
+            cur_num -= 1
+        origin_haed.next = self.reverseKGroup(head, k)
         return pre_Node
     
 if __name__ == "__main__":
