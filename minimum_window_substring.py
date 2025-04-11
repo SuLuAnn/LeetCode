@@ -24,7 +24,10 @@ class Solution:
                 if resLen > i - position_record[0] + 1:
                     res = [position_record[0], i]
                     resLen = i - position_record[0] + 1
-        return s[res[0] : res[1] + 1] if total == need else ""
+                left = position_record.popleft()
+                s_record[s[left]] -= 1
+                total -= 1
+        return s[res[0] : res[1] + 1] if res[0] > -1  else ""
 
 if __name__ == "__main__":
     solution = Solution()
