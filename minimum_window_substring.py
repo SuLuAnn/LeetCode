@@ -5,11 +5,11 @@ class Solution:
         s_record = defaultdict(int)
         t_record = defaultdict(int)
         position_record = deque()
-        ans = s
         for c in t:
             t_record[c] += 1
 
-        total = 0
+        total, need = 0, len(t)
+        res, resLen = [-1, -1], float("infinity")
 
         for i, c in enumerate(s):
             if not t_record[c]:
@@ -18,11 +18,13 @@ class Solution:
                 total += 1
             s_record[c] += 1
             position_record.append(i)
-            while s_record[s[position_record[0]]] > t_record[s[position_record[0]]]:
-                s_record[s[position_record.popleft()]] -= 1
-            if total == len(t) and len(ans) > i - position_record[0] + 1:
-                ans = s[position_record[0]: i + 1]
-        return ans if total == len(t) else ""
+            if total == need:
+                while s_record[s[position_record[0]]] > t_record[s[position_record[0]]]:
+                    s_record[s[position_record.popleft()]] -= 1
+                if resLen > i - position_record[0] + 1:
+                    res = [position_record[0], i]
+                    resLen = i - position_record[0] + 1
+        return s[res[0] : res[1] + 1] if total == need else ""
 
 if __name__ == "__main__":
     solution = Solution()
