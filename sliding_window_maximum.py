@@ -1,25 +1,28 @@
+from collections import deque
 from typing import List
-import heapq
 
 
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         ans = []
-        priority_queue = []
+        records = deque()
         for i in range(0, k - 1):
-            heapq.heappush(priority_queue, (-nums[i], i))
+            while records and nums[i] >= nums[records[-1]]:
+                records.pop()
+            records.append(i)
+            
         for i in range(k - 1, len(nums)):
-            left = i - k + 1
-            heapq.heappush(priority_queue, (-nums[i], i))
-            while True:
-                max_value, max_index = priority_queue[0]
-                if max_index >= left:
-                    ans.append(-max_value)
-                    break
-                heapq.heappop(priority_queue)
+            while records and nums[i] >= nums[records[-1]]:
+                records.pop()
+            records.append(i)
+            while records[0] <= i - k:
+                records.popleft()
+            
+            ans.append(nums[records[0]])
+
         return ans
     
 if __name__ == "__main__":
     solution = Solution()
-    result = solution.maxSlidingWindow([1,3,-1,-3,5,3,6,7], 3)
+    result = solution.maxSlidingWindow([1], 1)
     print(result)
